@@ -35,6 +35,7 @@ app.use('/auth/google', googleRouter);
 app.use(errorMW);
 
 app.use('/', (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.send('Server is running...');
 });
 
