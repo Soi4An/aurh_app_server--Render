@@ -22,7 +22,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
