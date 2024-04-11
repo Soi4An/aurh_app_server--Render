@@ -5,7 +5,7 @@ require('dotenv/config');
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-// const { corsOptions } = require('./utils/cors.js')
+const { corsOptions } = require('./utils/cors.js')
 const { authRouter } = require('./routers/auth.router.js');
 const { userRouter } = require('./routers/user.router.js');
 const { errorMW } = require('./middlewares/errorMW.js');
@@ -22,7 +22,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
