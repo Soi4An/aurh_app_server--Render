@@ -36,8 +36,9 @@ function getByGoogleId(googleId) {
 }
 
 async function register({ name, email, password }) {
+  console.log('--- register-1');
   const foundUser = await getByEmail(email);
-
+  console.log('--- register-2');
   if (foundUser) {
     throw ErrorApi.BadRequest('Validation error', {
       email: 'Email is already taken',
