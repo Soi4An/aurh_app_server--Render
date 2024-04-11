@@ -4,7 +4,7 @@ require('dotenv/config');
 
 const nodemailer = require('nodemailer');
 const {
-  DEF_MAIL_KEY_OPTIONS, DEF_MAIL_LINK_OPTIONS,
+  DEF_MAIL_KEY_OPTIONS, DEF_MAIL_LINK_OPTIONS
 } = require('../defaultConfig.js');
 const { createClientUrl } = require('../exceptions/createClientUrl.js');
 
@@ -14,21 +14,21 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
-  },
+    pass: process.env.SMTP_PASSWORD
+  }
 });
 
-async function send({ email, subject, html }) {
+async function send ({ email, subject, html }) {
   return transporter.sendMail({
     from: process.env.SMTP_USER,
     to: email,
     subject,
-    html,
+    html
   });
 }
 
-function sendActivationLink(
-  email, token, options = DEF_MAIL_LINK_OPTIONS,
+function sendActivationLink (
+  email, token, options = DEF_MAIL_LINK_OPTIONS
 ) {
   const { way, subject, htmlTitle } = options;
   const link = createClientUrl(`/${way}/${token}`);
@@ -41,12 +41,12 @@ function sendActivationLink(
       <p>Follow the link to confirm:</p>
       <br/>
       <a href="${link}">${link}</a>
-    `,
+    `
   });
 }
 
-function sendActivationKey(
-  email, token, options = DEF_MAIL_KEY_OPTIONS,
+function sendActivationKey (
+  email, token, options = DEF_MAIL_KEY_OPTIONS
 ) {
   const { subject, htmlTitle } = options;
 
@@ -60,7 +60,7 @@ function sendActivationKey(
       <h3>${token}</h3>
       <br/>
       <p>Then paste it into the site for confirmation</p>
-    `,
+    `
   });
 }
 
@@ -86,14 +86,14 @@ function sendActivationKey(
 //   });
 // }
 
-function sendChangeEmailNotification(oldEmail, newEmail) {
+function sendChangeEmailNotification (oldEmail, newEmail) {
   return send({
     email: oldEmail,
     subject: 'Changing email',
     html: `
     <h1>Changing email</h1>
     <p>Email for MyApp was changed to ${newEmail}</p>
-    `,
+    `
   });
 }
 
@@ -102,7 +102,7 @@ const mail = {
   sendActivationLink,
   sendActivationKey,
   // sendActivationEmailLink,
-  sendChangeEmailNotification,
+  sendChangeEmailNotification
 };
 
 module.exports = { mail };

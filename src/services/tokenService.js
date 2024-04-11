@@ -2,7 +2,7 @@
 
 const { Token } = require('../models/Token.js');
 
-async function save(userId, refreshToken) {
+async function save (userId, refreshToken) {
   const foundToken = await Token.findOne({ where: { userId } });
 
   if (foundToken) {
@@ -14,20 +14,20 @@ async function save(userId, refreshToken) {
   }
 
   await Token.create({
-    refreshToken, userId,
+    refreshToken, userId
   });
 }
 
-async function removeByUserId(userId) {
+async function removeByUserId (userId) {
   return Token.destroy({ where: { userId } });
 }
 
-function getByToken(refreshToken) {
+function getByToken (refreshToken) {
   return Token.findOne({ where: { refreshToken } });
 }
 
 module.exports = {
   tokenService: {
-    save, removeByUserId, getByToken,
-  },
+    save, removeByUserId, getByToken
+  }
 };

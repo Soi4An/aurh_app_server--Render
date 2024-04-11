@@ -11,13 +11,13 @@ const googleRouter = new express.Router();
 
 googleRouter.get('',
   catchErrorMW(googlePassport.authenticate(
-    'google', { scope: ['profile', 'email'] },
-  )),
+    'google', { scope: ['profile', 'email'] }
+  ))
 );
 
 googleRouter.get('/callback',
   googlePassport.authenticate('google', {
-    failureRedirect: createClientUrl('/login'),
+    failureRedirect: createClientUrl('/login')
   }), (req, res) => {
     res.redirect(createClientUrl('/profile?loginMethod=google'));
   });
@@ -29,11 +29,11 @@ googleRouter.get('/success',
     } else {
       throw ErrorApi.Unauthorized();
     }
-  }),
+  })
 );
 
 googleRouter.post('/logout', (req, res, next) => {
-  req.logout(function(err) {
+  req.logout(function (err) {
     if (err) {
       return next(err);
     }

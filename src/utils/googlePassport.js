@@ -13,9 +13,9 @@ passport.use(new GoogleStrategy(
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: `${process.env.SERVER_DOMAIN}/auth/google/callback`,
-    scope: ['profile', 'email'],
+    scope: ['profile', 'email']
   },
-  async(accessToken, refreshToken, profile, done) => {
+  async (accessToken, refreshToken, profile, done) => {
     const { id, displayName, emails } = profile;
     const googleEmail = emails[0].value;
 
@@ -33,7 +33,7 @@ passport.use(new GoogleStrategy(
       foundUser = await User.create({
         googleId: id,
         name: displayName,
-        email: googleEmail,
+        email: googleEmail
       });
     }
 
