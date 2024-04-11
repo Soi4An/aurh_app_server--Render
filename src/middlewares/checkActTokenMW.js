@@ -2,7 +2,7 @@
 
 const { ErrorApi } = require('../exceptions/ErrorApi.js');
 
-function checkActTokenMW (req, res, next) {
+function checkActTokenMW(req, res, next) {
   const { activetionToken } = req.params;
 
   if (!activetionToken) {

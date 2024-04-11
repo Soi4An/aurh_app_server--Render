@@ -18,7 +18,7 @@ const db = new Sequelize(process.env.POSTGRES_URL, {
 //   database: process.env.POSTGRES_DB || 'postgres',
 //   username: process.env.POSTGRES_USER || 'postgres',
 //   password: process.env.POSTGRES_PASSWORD,
-//   logging: false
+//   logging: false,
 // });
 
 module.exports = { db };

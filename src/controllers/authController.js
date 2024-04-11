@@ -10,7 +10,7 @@ const { userService } = require('../services/userService.js');
 // anti-double-useEffect
 const savingTokens = new Set();
 
-async function sendAuthentication (res, foundUser) {
+async function sendAuthentication(res, foundUser) {
   const normalizedUser = userService.normalize(foundUser);
   const accessToken = jwtService.generateAccessToken(normalizedUser);
   const refreshToken = jwtService.generateRefreshToken(normalizedUser);
@@ -32,22 +32,22 @@ async function sendAuthentication (res, foundUser) {
     // send to all sites
     sameSite: 'none',
     // only secure send-method (https)
-    secure: true
+    secure: true,
   });
 
   res.send({
     user: normalizedUser,
-    accessToken
+    accessToken,
   });
 }
 
-async function register (req, res) {
+async function register(req, res) {
   const { name, email, password } = req.body;
 
   const errors = {
     name: validate.name(name),
     email: validate.email(email),
-    password: validate.password(password)
+    password: validate.password(password),
   };
 
   if (errors.name || errors.email || errors.password) {
@@ -55,13 +55,13 @@ async function register (req, res) {
   }
 
   await userService.register({
-    name, email, password
+    name, email, password,
   });
 
   res.sendStatus(200);
 }
 
-async function activate (req, res) {
+async function activate(req, res) {
   const { activetionToken } = req.params;
   const foundUser = await userService.getByActivationToken(activetionToken);
 
@@ -75,7 +75,7 @@ async function activate (req, res) {
   await sendAuthentication(res, foundUser);
 }
 
-async function login (req, res) {
+async function login(req, res) {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -99,7 +99,7 @@ async function login (req, res) {
   await sendAuthentication(res, foundUser);
 }
 
-async function logout (req, res) {
+async function logout(req, res) {
   const { refreshToken } = req.cookies;
 
   if (!refreshToken) {
@@ -117,7 +117,7 @@ async function logout (req, res) {
   res.sendStatus(204);
 }
 
-async function refresh (req, res) {
+async function refresh(req, res) {
   const { refreshToken } = req.cookies;
   const decodedUser = jwtService.validateRefreshToken(refreshToken);
 
@@ -143,7 +143,7 @@ async function refresh (req, res) {
   await sendAuthentication(res, foundUser);
 }
 
-function check (req, res) {
+function check(req, res) {
   const { refreshToken } = req.cookies;
   const decodedUser = jwtService.validateRefreshToken(refreshToken);
 
@@ -156,7 +156,7 @@ function check (req, res) {
   res.send({ isValid });
 }
 
-async function forgot (req, res) {
+async function forgot(req, res) {
   const { email } = req.body;
 
   if (!email) {
@@ -174,13 +174,13 @@ async function forgot (req, res) {
   res.sendStatus(200);
 }
 
-async function resetPassword (req, res) {
+async function resetPassword(req, res) {
   const { activetionToken } = req.params;
   const { password, confirmation } = req.body;
 
   const errors = {
     password: validate.password(password),
-    isEqual: password === confirmation
+    isEqual: password === confirmation,
   };
 
   if (errors.password || !errors.isEqual) {
@@ -200,7 +200,7 @@ const authController = {
   refresh,
   check,
   forgot,
-  resetPassword
+  resetPassword,
 };
 
 module.exports = { authController };

@@ -2,7 +2,7 @@
 
 const { ErrorApi } = require('../exceptions/ErrorApi.js');
 
-function checkChangeEmailBodyMW (req, res, next) {
+function checkChangeEmailBodyMW(req, res, next) {
   const { activetionToken, newEmail } = req.body;
 
   if (!activetionToken) {

@@ -3,8 +3,8 @@
 const { ErrorApi } = require('../exceptions/ErrorApi.js');
 const { jwtService } = require('../services/jwtService.js');
 
-function getUserMW (req, res, next) {
-  const authHeader = req.headers.authorization;
+function getUserMW(req, res, next) {
+  const authHeader = req.headers['authorization'];
 
   if (!authHeader) {
     throw ErrorApi.Unauthorized();

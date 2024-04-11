@@ -1,6 +1,6 @@
 'use strict';
 
-function name (value) {
+function name(value) {
   if (!value) {
     return 'Name is required';
   }
@@ -14,7 +14,7 @@ function name (value) {
   return null;
 }
 
-function email (value) {
+function email(value) {
   if (!value) {
     return 'Email is required';
   }
@@ -28,7 +28,7 @@ function email (value) {
   return null;
 }
 
-function password (value) {
+function password(value) {
   if (!value) {
     return 'Password is required';
   }
@@ -44,6 +44,6 @@ module.exports = {
   validate: {
     name,
     email,
-    password
-  }
+    password,
+  },
 };

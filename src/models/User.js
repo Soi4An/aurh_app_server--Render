@@ -7,21 +7,21 @@ const User = db.define('users', {
   email: {
     type: DataTypes.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   password: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   activationToken: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   googleId: {
-    type: DataTypes.STRING
-  }
+    type: DataTypes.STRING,
+  },
 }) || {};
 
 module.exports = { User };

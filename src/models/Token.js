@@ -7,10 +7,10 @@ const { User } = require('./User.js');
 const Token = db.define('tokens', {
   refreshToken: {
     type: DataTypes.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 }, {
-  createdAt: false
+  createdAt: false,
 });
 
 Token.belongsTo(User);

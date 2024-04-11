@@ -5,7 +5,7 @@ require('dotenv/config');
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const { corsOptions } = require('./utils/cors.js')
+const { corsOptions } = require('./utils/cors.js');
 const { authRouter } = require('./routers/auth.router.js');
 const { userRouter } = require('./routers/user.router.js');
 const { errorMW } = require('./middlewares/errorMW.js');
@@ -19,7 +19,7 @@ const app = express();
 app.use(session({
   secret: process.env.JWT_ACCESS_SECRET,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
 }));
 
 app.use(cors(corsOptions));
@@ -33,11 +33,6 @@ app.use('/user', userRouter);
 app.use('/auth/google', googleRouter);
 
 app.use(errorMW);
-
-app.use('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.send('Server is running...');
-});
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console

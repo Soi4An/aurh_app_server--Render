@@ -7,40 +7,40 @@ const { mail } = require('../utils/mail.js');
 const { bcryptService } = require('./bcryptService.js');
 const { ACTIVATION_PASSWORD_WAY } = require('../defaultConfig.js');
 
-function normalize ({ id, email, name, googleId }) {
+function normalize({ id, email, name, googleId }) {
   return {
-    id, email, name, googleId
+    id, email, name, googleId,
   };
 }
 
-function getById (id) {
+function getById(id) {
   return User.findByPk(id);
 }
 
-function getByEmail (email) {
+function getByEmail(email) {
   return User.findOne({
-    where: { email }
+    where: { email },
   });
 }
 
-function getByActivationToken (activationToken) {
+function getByActivationToken(activationToken) {
   return User.findOne({
-    where: { activationToken }
+    where: { activationToken },
   });
 }
 
-function getByGoogleId (googleId) {
+function getByGoogleId(googleId) {
   return User.findOne({
-    where: { googleId }
+    where: { googleId },
   });
 }
 
-async function register ({ name, email, password }) {
+async function register({ name, email, password }) {
   const foundUser = await getByEmail(email);
 
   if (foundUser) {
     throw ErrorApi.BadRequest('Validation error', {
-      email: 'Email is already taken'
+      email: 'Email is already taken',
     });
   }
 
@@ -51,18 +51,18 @@ async function register ({ name, email, password }) {
     name,
     email,
     password: hash,
-    activationToken
+    activationToken,
   });
 
   await mail.sendActivationLink(email, activationToken);
 }
 
-async function forgot (email) {
+async function forgot(email) {
   const activationToken = uuidv4();
   const mailOptions = {
     way: ACTIVATION_PASSWORD_WAY,
     subject: 'Password reset',
-    htmlTitle: 'Password reset for your account'
+    htmlTitle: 'Password reset for your account',
   };
 
   await User.update({ activationToken }, { where: { email } });
@@ -70,7 +70,7 @@ async function forgot (email) {
   await mail.sendActivationLink(email, activationToken, mailOptions);
 }
 
-async function resetPassword (activetionToken, password) {
+async function resetPassword(activetionToken, password) {
   const foundUser = await getByActivationToken(activetionToken);
 
   if (!foundUser) {
@@ -84,7 +84,7 @@ async function resetPassword (activetionToken, password) {
   await foundUser.save();
 }
 
-async function changeName (userId, newName) {
+async function changeName(userId, newName) {
   const foundUser = await getById(userId);
 
   if (!foundUser) {
@@ -96,7 +96,7 @@ async function changeName (userId, newName) {
   await foundUser.save();
 }
 
-async function changePassword (userId, oldPasword, newPassword) {
+async function changePassword(userId, oldPasword, newPassword) {
   const foundUser = await getById(userId);
 
   if (!foundUser) {
@@ -113,7 +113,7 @@ async function changePassword (userId, oldPasword, newPassword) {
   await foundUser.save();
 }
 
-async function changeEmailRequest (id, email) {
+async function changeEmailRequest(id, email) {
   const foundUser = await getById(id);
 
   if (!foundUser) {
@@ -127,13 +127,13 @@ async function changeEmailRequest (id, email) {
 
   const mailOptions = {
     subject: 'Confirm the email change',
-    htmlTitle: 'Confirm the action'
+    htmlTitle: 'Confirm the action',
   };
 
   await mail.sendActivationKey(email, activationToken, mailOptions);
 }
 
-async function changeEmail (activetionToken, newEmail) {
+async function changeEmail(activetionToken, newEmail) {
   const foundUser = await getByActivationToken(activetionToken);
 
   if (!foundUser) {
@@ -163,6 +163,6 @@ module.exports = {
     changeName,
     changePassword,
     changeEmailRequest,
-    changeEmail
-  }
+    changeEmail,
+  },
 };

@@ -5,7 +5,7 @@ const { validate } = require('../exceptions/validate.js');
 const { bcryptService } = require('../services/bcryptService.js');
 const { userService } = require('../services/userService.js');
 
-async function changeName (req, res) {
+async function changeName(req, res) {
   const { name } = req.body;
   const { id } = req.user;
   const errors = { name: validate.name(name) };
@@ -19,7 +19,7 @@ async function changeName (req, res) {
   res.sendStatus(200);
 }
 
-async function changePassword (req, res) {
+async function changePassword(req, res) {
   const { oldPassword, newPassword, confirmation } = req.body;
   const { id } = req.user;
 
@@ -29,7 +29,7 @@ async function changePassword (req, res) {
 
   const errors = {
     newPasword: validate.password(newPassword),
-    isEqual: newPassword === confirmation
+    isEqual: newPassword === confirmation,
   };
 
   if (errors.newPasword || !errors.isEqual) {
@@ -41,7 +41,7 @@ async function changePassword (req, res) {
   res.sendStatus(200);
 }
 
-async function confirmPassword (req, res) {
+async function confirmPassword(req, res) {
   const { password } = req.body;
   const { id } = req.user;
 
@@ -62,7 +62,7 @@ async function confirmPassword (req, res) {
   res.sendStatus(200);
 }
 
-async function changeEmailRequest (req, res) {
+async function changeEmailRequest(req, res) {
   const { newEmail } = req.body;
   const { id } = req.user;
   const errors = { email: validate.email(newEmail) };
@@ -76,7 +76,7 @@ async function changeEmailRequest (req, res) {
   res.sendStatus(200);
 }
 
-async function activationEmail (req, res) {
+async function activationEmail(req, res) {
   const { activetionToken, newEmail } = req.body;
 
   await userService.changeEmail(activetionToken, newEmail);
@@ -89,7 +89,7 @@ const userController = {
   changePassword,
   confirmPassword,
   changeEmailRequest,
-  activationEmail
+  activationEmail,
 };
 
 module.exports = { userController };
